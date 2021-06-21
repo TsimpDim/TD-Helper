@@ -1,0 +1,30 @@
+{
+    "manifest_version": 2,
+    "name": "TD Helper",
+    "version": "1.0",
+    "description": "TD's helper functions",
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["/content-scripts/helper-cs.js"]
+        }
+    ],
+    "options_ui": {
+        "page": "options/options.html"
+    },
+    "browser_action": {
+        "browser_style": true,
+        "default_popup": "popup/helper.html",
+        "default_icon": {"256": "icons/f-256.png"}
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{d2643ea4-5d5c-4f39-9c4a-c47db2425884}"
+        }
+  }
+}

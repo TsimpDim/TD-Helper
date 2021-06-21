@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="helper.css"/>
+    <script type="text/javascript" src="helper.js"></script>
+  </head>
+
+<body>
+  <div class="col">
+    <div class="section">Hex/Dec</div>
+    <div id="eui-functions" class="col">
+      <label for="dec-eui">Decimal</label>
+      <input id="dec-eui" type="text" title="Dec" placeholder="9574384526952497152"/>
+      
+      <div class="row">
+        <div class="col">
+          <label for="hex-eui">Hexadecimal</label>
+          <input id="hex-eui" type="text" title="Hex" placeholder="84df:0c00:0000:0000"/>
+        </div>
+        
+        <div class="col">
+          <label for="hex-colon">:</label>
+          <input id="hex-colon" type="checkbox" title="Hex Colon Check" name=":"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">Phabricator</div>
+    <div id="phab-functions" class="col">
+      <div id="review" class="row">
+        <label for="review-text-btn">Review: </label>
+        <input id="review-text-btn" type="button" value="Copy Text" />
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
