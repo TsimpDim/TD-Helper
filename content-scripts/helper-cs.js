@@ -15,7 +15,7 @@ function copyReviewText() {
         if (diffIDMatches && diffIDMatches.length != 0) diffID = diffIDMatches[0];
 
         let issueURL = `https://${r.ytHost}/youtrack/issue/${issueID}`;
-        let finalText = `[${diffID}](${diffURL} | [${issueID}](${issueURL}) ${issueTitle})`;
+        let finalText = `[${diffID}](${diffURL}) | [${issueID}](${issueURL}) ${issueTitle}`;
 
         navigator.clipboard.writeText(finalText)
         .then(() => {
