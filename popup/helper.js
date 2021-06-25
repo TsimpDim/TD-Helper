@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     fields.dec.addEventListener('keyup', decToHex, true);
     fields.hex.addEventListener('keyup', hexToDec, true);
     fields["hex-colon"].addEventListener('change', hexToColonHex, true);
+    fields["unix-ts"].addEventListener('keyup', unixToDate, true);
+    fields["f-date"].addEventListener('keyup', dateToUnix, true);
 });
 
 function hexToDec() {
@@ -64,12 +66,28 @@ function sendCopyReviewTextCommand() {
     }, true);
 }
 
+function unixToDate() {
+    let fields = getFields();
+    let unixTs = fields["unix-ts"].value;
+    let date = new Date(unixTs * 1000);
+    fields["f-date"].value = date.toISOString().replace('Z', '');
+}
+
+function dateToUnix() {
+    let fields = getFields()
+    let dateString = fields["f-date"].value;
+    let dateObject = new Date(dateString);
+    fields["unix-ts"].value = dateObject.getTime() / 1000;
+}
+
 function getFields() {
     return {
         "dec": document.getElementById("dec-eui"),
         "hex": document.getElementById("hex-eui"),
         "hex-colon": document.getElementById("hex-colon"),
-        "rev-txt": document.getElementById("review-text-btn")
+        "rev-txt": document.getElementById("review-text-btn"),
+        "unix-ts": document.getElementById("unix-ts"),
+        "f-date": document.getElementById("f-date")
     }
 }
 
