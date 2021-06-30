@@ -1,3 +1,5 @@
+import { decToHex, hexToDec } from '../external/hex2dec/hex2dec.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     browser.storage.sync.get("phabHost")
     .then(results => {
@@ -15,28 +17,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let fields = getFields();
     
-    fields.dec.addEventListener('keyup', decToHex, true);
-    fields.hex.addEventListener('keyup', hexToDec, true);
+    fields.dec.addEventListener('keyup', decToHexField, true);
+    fields.hex.addEventListener('keyup', hexToDecField, true);
     fields["hex-colon"].addEventListener('change', hexToColonHex, true);
     fields["unix-ts"].addEventListener('keyup', unixToDate, true);
     fields["f-date"].addEventListener('keyup', dateToUnix, true);
 });
 
-function hexToDec() {
+function hexToDecField() {
     let fields = getFields();
     let hexContent = fields.hex.value;
     hexContent = hexContent.replaceAll(':','');
-    if (hexContent.length % 2) { hexContent = '0' + hexContent; }
-    let dec = BigInt('0x' + hexContent).toString(10);
-    fields.dec.value = dec;
+    fields.dec.value = hexToDec(hexContent);;
 };
 
-function decToHex() {
+function decToHexField() {
     let fields = getFields();
     let decContent = fields.dec.value;
-    let hex = Number(decContent).toString(16);
-
-    fields.hex.value = hex;
+    fields.hex.value = decToHex(decContent).replace('0x', '');
 };
 
 function hexToColonHex() {
@@ -102,3 +100,6 @@ function chunk(str, n) {
 
     return ret
 };
+
+
+// External hex2dec.js
