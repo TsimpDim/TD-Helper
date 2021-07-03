@@ -1,5 +1,14 @@
 import { decToHex, hexToDec } from '../external/hex2dec/hex2dec.js';
 
+let fields = {
+    "dec": document.getElementById("dec-eui"),
+    "hex": document.getElementById("hex-eui"),
+    "hex-colon": document.getElementById("hex-colon"),
+    "rev-txt": document.getElementById("review-text-btn"),
+    "unix-ts": document.getElementById("unix-ts"),
+    "f-date": document.getElementById("f-date")
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     browser.storage.sync.get("phabHost")
     .then(results => {
@@ -15,43 +24,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    let fields = getFields();
     
-    fields.dec.addEventListener('keyup', decToHexField, true);
-    fields.hex.addEventListener('keyup', hexToDecField, true);
-    fields["hex-colon"].addEventListener('change', hexToColonHex, true);
-    fields["unix-ts"].addEventListener('keyup', unixToDate, true);
-    fields["f-date"].addEventListener('keyup', dateToUnix, true);
+    getField("dec").addEventListener('keyup', decToHexField, true);
+    getField("hex").addEventListener('keyup', hexToDecField, true);
+    getField("hex-colon").addEventListener('change', hexToColonHex, true);
+    getField("unix-ts").addEventListener('keyup', unixToDate, true);
+    getField("f-date").addEventListener('keyup', dateToUnix, true);
 });
 
 function hexToDecField() {
-    let fields = getFields();
-    let hexContent = fields.hex.value;
+    let hexContent = getField("hex").value;
+    if (hexContent === "") {
+        getField("dec").value = "";
+        return;
+    }
+
     hexContent = hexContent.replaceAll(':','');
-    fields.dec.value = hexToDec(hexContent);;
+    getField("dec").value = hexToDec(hexContent);;
 };
 
 function decToHexField() {
-    let fields = getFields();
-    let decContent = fields.dec.value;
-    fields.hex.value = decToHex(decContent).replace('0x', '');
+    let decContent = getField("dec").value;
+    if (decContent === "") {
+        getField("hex").value = "";
+        return ;
+    }
+
+    getField("hex").value = decToHex(decContent).replace('0x', '');
 };
 
 function hexToColonHex() {
-    let fields = getFields();
-    let hexContent = fields.hex.value;
+    let hexContent = getField("hex").value;
     
-    if (fields["hex-colon"].checked) {
+    if (getField("hex-colon").checked) {
         hexContent = chunk(hexContent, 4).join(':');
     } else {
         hexContent = hexContent.replaceAll(':', '');
     }
     
-    fields.hex.value = hexContent
+    getField("hex").value = hexContent
 }
 
 function sendCopyReviewTextCommand() {
-    getFields()["rev-txt"].addEventListener("click", () => {
+    getField("rev-txt").addEventListener("click", () => {
         browser.tabs.query({active: true, currentWindow: true})
         .then((tabs) => {
             browser.tabs.sendMessage(tabs[0].id, {
@@ -65,34 +80,35 @@ function sendCopyReviewTextCommand() {
 }
 
 function unixToDate() {
-    let fields = getFields();
-    let unixTs = fields["unix-ts"].value;
+    let unixTs = getField("unix-ts").value;
+    if (unixTs === "") {
+        getField("f-date").value = "";
+        return ;
+    }
+
     let date = new Date(unixTs * 1000);
-    fields["f-date"].value = date.toISOString().replace('Z', '');
+    getField("f-date").value = date.toISOString().replace('Z', '');
 }
 
 function dateToUnix() {
-    let fields = getFields()
-    let dateString = fields["f-date"].value;
+    let dateString = getField("f-date").value;
+    if (dateString === "") {
+        getField("unix-ts").value = "";
+        return ;
+    }
+
     let dateObject = new Date(dateString);
-    fields["unix-ts"].value = dateObject.getTime() / 1000;
+    getField("unix-ts").value = dateObject.getTime() / 1000;
 }
 
-function getFields() {
-    return {
-        "dec": document.getElementById("dec-eui"),
-        "hex": document.getElementById("hex-eui"),
-        "hex-colon": document.getElementById("hex-colon"),
-        "rev-txt": document.getElementById("review-text-btn"),
-        "unix-ts": document.getElementById("unix-ts"),
-        "f-date": document.getElementById("f-date")
-    }
+function getField(field) {
+    return fields[field];
 }
 
 function chunk(str, n) {
-    var ret = [];
-    var i;
-    var len;
+    let ret = [];
+    let i;
+    let len;
 
     for(i = 0, len = str.length; i < len; i += n) {
        ret.push(str.substr(i, n))
@@ -100,6 +116,3 @@ function chunk(str, n) {
 
     return ret
 };
-
-
-// External hex2dec.js
