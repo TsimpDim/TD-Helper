@@ -10,19 +10,33 @@ let fields = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    browser.storage.sync.get("phabHost")
-    .then(results => {
-        let currentURL = "";
-        browser.tabs.query({ active:true, currentWindow:true}, function(tabs){
-            currentURL = new URL(tabs[0].url);
+    let storageKey = "phabHost"
+    let currentURL = "";
 
-            if (currentURL.hostname == results.phabHost) {
-                browser.tabs
-                .executeScript({file: "/content-scripts/helper-cs.js"})
-                .then(sendCopyReviewTextCommand);
-            }
+    if (!window.chrome) { 
+        browser.storage.sync.get(storageKey).then(results => {
+            browser.tabs.query({ active:true, currentWindow:true}, function(tabs){
+                currentURL = new URL(tabs[0].url);
+
+                if (currentURL.hostname == results.phabHost) {
+                    browser.tabs
+                    .executeScript({file: "/content-scripts/helper-cs.js"})
+                    .then(sendCopyReviewTextCommand);
+                }
+            });
         });
-    });
+    } else {
+        chrome.storage.sync.get(storageKey, results => {
+            chrome.tabs.query({ active:true, currentWindow:true}, function(tabs){
+                currentURL = new URL(tabs[0].url);
+                if (currentURL.hostname == results.phabHost) {
+                    chrome.tabs.executeScript({file: "/content-scripts/helper-cs.js"}, () => {
+                        sendCopyReviewTextCommand()
+                    })
+                }
+            });
+        });
+    }
 
     
     getField("dec").addEventListener('keyup', decToHexField, true);
@@ -67,15 +81,23 @@ function hexToColonHex() {
 
 function sendCopyReviewTextCommand() {
     getField("rev-txt").addEventListener("click", () => {
-        browser.tabs.query({active: true, currentWindow: true})
-        .then((tabs) => {
-            browser.tabs.sendMessage(tabs[0].id, {
-                command: "copyReviewText",
-            });
-        })
-        .catch(error => {
-            console.log("error" + error);
-        })
+        if (!window.chrome) {
+            browser.tabs.query({active: true, currentWindow: true})
+            .then((tabs) => {
+                browser.tabs.sendMessage(tabs[0].id, {
+                    command: "copyReviewText",
+                });
+            })
+            .catch(error => {
+                console.log("error" + error);
+            })
+        } else {
+            chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    command: "copyReviewText",
+                });
+            })
+        }
     }, true);
 }
 
