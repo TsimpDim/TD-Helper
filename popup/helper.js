@@ -58,6 +58,7 @@ function decToHexField() {
     }
 
     getField("hex").value = decToHex(decContent).replace('0x', '');
+    hexToColonHex()
 };
 
 function hexToColonHex() {
