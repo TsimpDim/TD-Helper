@@ -1,21 +1,19 @@
 function copyReviewText() {
     let storageKeys = ["ytIssuePre", "ytHost", "phabPre"]
-    if (!window.chrome) { 
-        browser.storage.sync.get(storageKeys)
-        .then(r => {
-            let finalText = getReviewText(r);
+    browser.storage.sync.get(storageKeys)
+    .then(r => {
+        let finalText = getReviewText(r);
+
+        if (!window.chrome) {
             navigator.clipboard.writeText(finalText)
             .then(() => {
                 console.log("Link copied to clipboard.");
             })
             .catch(e => {console.log(e)});
-        });
-    } else {
-        chrome.storage.sync.get(storageKeys, r => {
-            let finalText = getReviewText(r);
+        } else {
             hardcoreCopy(finalText);
-        })
-    }
+        }
+    });
 }
 
 function getReviewText(r) {
@@ -38,19 +36,11 @@ function getReviewText(r) {
     return finalText
 }
 
-if (!window.chrome) {
-    browser.runtime.onMessage.addListener(message => {
-        if (message.command === "copyReviewText") {
-            copyReviewText(message.beastURL);
-        }
-    });
-} else {
-    chrome.runtime.onMessage.addListener(message => {
-        if (message.command === "copyReviewText") {
-            copyReviewText(message.beastURL);
-        }
-    });
-}
+browser.runtime.onMessage.addListener(message => {
+    if (message.command === "copyReviewText") {
+        copyReviewText(message.beastURL);
+    }
+});
 
 function hardcoreCopy(text) {
     const ta = document.createElement('textarea');

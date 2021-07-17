@@ -1,4 +1,4 @@
-import { decToHex, hexToDec } from '../external/hex2dec/hex2dec.js';
+import { decToHex, hexToDec } from '../external/hex2dec.js';
 
 let fields = {
     "dec": document.getElementById("dec-eui"),
@@ -15,30 +15,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let storageKey = "phabHost"
     let currentURL = "";
 
-    if (!window.chrome) { 
-        browser.storage.sync.get(storageKey).then(results => {
-            browser.tabs.query({ active:true, currentWindow:true}, function(tabs){
-                currentURL = new URL(tabs[0].url);
+    browser.storage.sync.get(storageKey).then(results => {
+        browser.tabs.query({ active:true, currentWindow:true})
+        .then(tabs => {
+            currentURL = new URL(tabs[0].url);
 
-                if (currentURL.hostname == results.phabHost) {
-                    browser.tabs
-                    .executeScript({file: "/content-scripts/helper-cs.js"})
-                    .then(sendCopyReviewTextCommand);
-                }
-            });
+            if (currentURL.hostname == results.phabHost) {
+                browser.tabs.executeScript({file: "/external/browser-polyfill.min.js"});
+                browser.tabs
+                .executeScript({file: "/content-scripts/helper-cs.js"})
+                .then(sendCopyReviewTextCommand);
+            }
         });
-    } else {
-        chrome.storage.sync.get(storageKey, results => {
-            chrome.tabs.query({ active:true, currentWindow:true}, function(tabs){
-                currentURL = new URL(tabs[0].url);
-                if (currentURL.hostname == results.phabHost) {
-                    chrome.tabs.executeScript({file: "/content-scripts/helper-cs.js"}, () => {
-                        sendCopyReviewTextCommand()
-                    })
-                }
-            });
-        });
-    }
+    });
 
     
     getField("dec").addEventListener('keyup', decToHexField, true);
