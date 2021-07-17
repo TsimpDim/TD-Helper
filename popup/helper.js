@@ -6,7 +6,9 @@ let fields = {
     "hex-colon": document.getElementById("hex-colon"),
     "rev-txt": document.getElementById("review-text-btn"),
     "unix-ts": document.getElementById("unix-ts"),
-    "f-date": document.getElementById("f-date")
+    "f-date": document.getElementById("f-date"),
+    "b64-encoded": document.getElementById("b64-encoded"),
+    "b64-decoded": document.getElementById("b64-decoded")
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -44,6 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
     getField("hex-colon").addEventListener('change', hexToColonHex, true);
     getField("unix-ts").addEventListener('keyup', unixToDate, true);
     getField("f-date").addEventListener('keyup', dateToUnix, true);
+    getField("b64-decoded").addEventListener('keyup', encodeB64, true);
+    getField("b64-encoded").addEventListener('keyup', decodeB64, true);
 });
 
 function hexToDecField() {
@@ -123,6 +127,27 @@ function dateToUnix() {
     getField("unix-ts").value = dateObject.getTime() / 1000;
 }
 
+function decodeB64() {
+    let b64Text = getField('b64-encoded').value;
+    if (b64Text === "") {
+        getField('b64-decoded').value = "";
+        return ;
+    }
+
+    getField('b64-decoded').value = atob(b64Text);
+}
+
+function encodeB64() {
+    let ascText = getField('b64-decoded').value;
+    if (ascText === "") {
+        getField('b64-encoded').value = "";
+        return ;
+    }
+
+    getField('b64-encoded').value = btoa(ascText);
+}
+
+
 function getField(field) {
     return fields[field];
 }
@@ -138,3 +163,4 @@ function chunk(str, n) {
 
     return ret
 };
+
