@@ -12,10 +12,15 @@ let fields = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    let storageKey = "phabHost"
+    let storageKeys = ["phabHost", "phabToggle"]
     let currentURL = "";
 
-    browser.storage.sync.get(storageKey).then(results => {
+    browser.storage.sync.get(storageKeys).then(results => {
+        if (results.phabToggle === false) {
+            document.getElementById("phab-section").remove();
+            document.getElementById("phab-functions").remove();
+        }
+
         browser.tabs.query({ active:true, currentWindow:true})
         .then(tabs => {
             currentURL = new URL(tabs[0].url);

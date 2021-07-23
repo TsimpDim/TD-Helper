@@ -3,9 +3,8 @@ function saveOptions(e) {
 
     let objToSet = {
         ytHost: document.getElementById("yt-host").value,
-        ytIssuePre: document.getElementById("yt-issue-pre").value,
         phabHost: document.getElementById("phab-host").value,
-        phabPre: document.getElementById("phab-pre").value
+        phabToggle: document.getElementById("phab-toggle").checked
     }
     
     if (!window.chrome) {
@@ -19,16 +18,15 @@ function restoreOptions() {
 
     function setCurrentChoice(result) {
         document.getElementById("yt-host").value = result.ytHost || "jetbrains.com";
-        document.getElementById("yt-issue-pre").value = result.ytIssuePre || "AB";
         document.getElementById("phab-host").value = result.phabHost || "phabricator.org";
-        document.getElementById("phab-pre").value = result.phabPre || "D";
+        document.getElementById("phab-toggle").checked = result.phabToggle || false;
     }
 
     function onError(error) {
         console.log(`Error: ${error}`);
     }
 
-    let storageKeys = ["ytHost", "ytIssuePre", "phabHost", "phabPre"];
+    let storageKeys = ["ytHost", "phabHost", "phabToggle"];
 
     if (!window.chrome) {
         browser.storage.sync.get(storageKeys)
@@ -36,9 +34,6 @@ function restoreOptions() {
     } else {
         chrome.storage.sync.get(storageKeys, setCurrentChoice)
     }
-    
-
-    
 }
 
 document.addEventListener("DOMContentLoaded", function() {

@@ -1,5 +1,5 @@
 function copyReviewText() {
-    let storageKeys = ["ytIssuePre", "ytHost", "phabPre"]
+    let storageKeys = ["ytHost"]
     browser.storage.sync.get(storageKeys)
     .then(r => {
         let finalText = getReviewText(r);
@@ -18,21 +18,21 @@ function copyReviewText() {
 
 function getReviewText(r) {
     let pageTitle = document.title;
-    let issueIDMatches = new RegExp(`${r.ytIssuePre}-\\d+`).exec(pageTitle);
+    let issueIDMatches = new RegExp(/\w+-\d+/).exec(pageTitle);
     let issueID = "";
     if (issueIDMatches && issueIDMatches.length != 0) issueID = issueIDMatches[0];
 
     let issueTitle = "";
-    let issueTitleGroups = new RegExp(`${r.ytIssuePre}-\\d+ (.*)`).exec(pageTitle);
+    let issueTitleGroups = new RegExp(/\w+-\d+ (.*)/).exec(pageTitle);
     if (issueTitleGroups && issueTitleGroups.length != 0) issueTitle = issueTitleGroups[1];
 
     let diffURL = window.location.href;
     let diffID = "";
-    let diffIDMatches = new RegExp(`${r.phabPre}\\d+`).exec(pageTitle);
+    let diffIDMatches = new RegExp(/\w+\d+/).exec(pageTitle);
     if (diffIDMatches && diffIDMatches.length != 0) diffID = diffIDMatches[0];
 
     let issueURL = `https://${r.ytHost}/youtrack/issue/${issueID}`;
-    let finalText = `[${diffID}](${diffURL}) | [${issueID}](${issueURL}) ${issueTitle}`;
+    let finalText = `[${diffID}](${diffURL}) | [${issueID}](${issueURL}) "${issueTitle}"`;
     return finalText
 }
 
