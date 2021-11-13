@@ -11,7 +11,13 @@
 
 <body>
   <div class="col">
-    <div class="section">Hex/Dec</div>
+    <div class="row">
+      <div class="section">Hex/Dec</div>
+      <div id="ip-container" class="row">
+        <label id="ip-indicator" for="myIpv4" title="red -> your ip has changed. green -> your ip has not changed"></label>
+        <label id="myIpv4" title="your ipv4 address">xxx.xxx.xxx.xxx</label>
+      </div>
+    </div>
     <div id="eui-functions" class="col">
       <label for="dec-eui">Decimal</label>
       <input id="dec-eui" type="text" title="Dec" placeholder="9574384526952497152"/>
@@ -63,6 +69,16 @@
       </div>
     </div>
     
+    <div class="section">BeautifyJSON</div>
+    <div id="json-functions" class="col">
+      <div id="raw-to-beaut" class="row">
+        <label for="raw-json">Raw JSON</label>
+        <input id="raw-json" type="text" title="Raw JSON" placeholder="raw json"/>
+      </div>
+
+      <input id="copy-beaut-json-btn" type="button" value="Copy JSON" />
+      <pre id="beaut-json">output will appear here</pre>
+    </div>
   </div>
 </body>
 

@@ -4,7 +4,8 @@ function saveOptions(e) {
     let objToSet = {
         ytHost: document.getElementById("yt-host").value,
         phabHost: document.getElementById("phab-host").value,
-        phabToggle: document.getElementById("phab-toggle").checked
+        phabToggle: document.getElementById("phab-toggle").checked,
+        showIp: document.getElementById("showip-toggle").checked
     }
     
     if (!window.chrome) {
@@ -20,13 +21,14 @@ function restoreOptions() {
         document.getElementById("yt-host").value = result.ytHost || "jetbrains.com";
         document.getElementById("phab-host").value = result.phabHost || "phabricator.org";
         document.getElementById("phab-toggle").checked = result.phabToggle || false;
+        document.getElementById("showip-toggle").checked = result.showIp || false;
     }
 
     function onError(error) {
         console.log(`Error: ${error}`);
     }
 
-    let storageKeys = ["ytHost", "phabHost", "phabToggle"];
+    let storageKeys = ["ytHost", "phabHost", "phabToggle", "showIp"];
 
     if (!window.chrome) {
         browser.storage.sync.get(storageKeys)

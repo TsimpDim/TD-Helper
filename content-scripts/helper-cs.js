@@ -11,7 +11,7 @@ function copyReviewText() {
             })
             .catch(e => {console.log(e)});
         } else {
-            hardcoreCopy(finalText);
+            self.hardcoreCopy(finalText);
         }
     });
 }

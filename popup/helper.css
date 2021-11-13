@@ -1,6 +1,8 @@
 html, body {
   padding: 0;
   margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
 }
 
 .col {
@@ -16,8 +18,45 @@ html, body {
   align-items: center;
 }
 
+#beaut-json {
+  padding: .5em;
+  margin-top: 0;
+
+  max-width: 100vw;
+  overflow: hidden;
+
+  background-color: rgb(241, 241, 241);
+  border-radius: 10px;
+}
+
+#beaut-json:hover {
+  overflow: scroll;
+}
+
 input {
   margin: .5em;
+}
+
+#myIpv4 {
+  width: 9em;
+  padding: 0;
+  margin: 0;
+  margin-left: .2em;
+  visibility: inherit;
+}
+
+#ip-container {
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#ip-indicator {
+  border-radius: 100%;
+  background-color: green;
+  visibility: inherit;
+  width: 10px;
+  height: 10px;
 }
 
 .section {

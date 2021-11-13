@@ -1,4 +1,5 @@
 import { decToHex, hexToDec } from '../external/hex2dec.js';
+import { copy, httpRequest, chunk } from '../utils.js';
 
 let fields = {
     "dec": document.getElementById("dec-eui"),
@@ -8,19 +9,32 @@ let fields = {
     "unix-ts": document.getElementById("unix-ts"),
     "f-date": document.getElementById("f-date"),
     "b64-encoded": document.getElementById("b64-encoded"),
-    "b64-decoded": document.getElementById("b64-decoded")
+    "b64-decoded": document.getElementById("b64-decoded"),
+    "raw-json": document.getElementById("raw-json"),
+    "beaut-json": document.getElementById("beaut-json"),
+    "copy-json": document.getElementById("copy-beaut-json-btn"),
+    "myip": document.getElementById("myIpv4"),
+    "ip-indicator": document.getElementById("ip-indicator")
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    let storageKeys = ["phabHost", "phabToggle"]
+    let storageKeys = ["phabHost", "phabToggle", "showIp"]
     let currentURL = "";
 
     browser.storage.sync.get(storageKeys).then(results => {
+        // Remove Phabricator related entries
         if (results.phabToggle === false) {
             document.getElementById("phab-section").remove();
             document.getElementById("phab-functions").remove();
         }
 
+        // Show myIpv4 fields if chosen
+        if (results.showIp === true) {
+            document.getElementById("ip-container").style.visibility = "visible";
+            handleIpRequest();
+        }
+
+        // Start listener for the copy review text button
         browser.tabs.query({ active:true, currentWindow:true})
         .then(tabs => {
             currentURL = new URL(tabs[0].url);
@@ -34,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    
+
     getField("dec").addEventListener('keyup', decToHexField, true);
     getField("hex").addEventListener('keyup', hexToDecField, true);
     getField("hex-colon").addEventListener('change', hexToColonHex, true);
@@ -42,7 +56,29 @@ document.addEventListener('DOMContentLoaded', function() {
     getField("f-date").addEventListener('keyup', dateToUnix, true);
     getField("b64-decoded").addEventListener('keyup', encodeB64, true);
     getField("b64-encoded").addEventListener('keyup', decodeB64, true);
+    getField("raw-json").addEventListener('keyup', beautifyJson, true);
+    getField("copy-json").addEventListener('click', copyJson, true);
 });
+
+function handleIpRequest() {
+    httpRequest("https://api.db-ip.com/v2/free/self")
+    .then((d) => {
+        let data = JSON.parse(d);
+        let newIpv4 = data.ipAddress;
+
+        browser.storage.sync.get("ipv4").then(r => {
+            if(r.ipv4 != newIpv4) {
+                browser.storage.sync.set({"ipv4": newIpv4})
+
+                if(r.ipv4 != undefined) { // case where it's enabled for the first time
+                    getField("ip-indicator").style.backgroundColor = "red";
+                }
+            }
+        })
+
+        getField("myip").innerHTML = newIpv4
+    });
+}
 
 function hexToDecField() {
     let hexContent = getField("hex").value;
@@ -142,20 +178,30 @@ function encodeB64() {
     getField('b64-encoded').value = btoa(ascText);
 }
 
+function beautifyJson() {
+    let rawJson = getField('raw-json').value;
+    if (rawJson === "") {
+        getField('beaut-json').innerHTML = "output will appear here";
+        return ;
+    }
+
+    // {"gatewayIp":10048,"nodeEui64":"test-kda-bug","profileId":551,"endpointId":12,"clusterId":1794,"attributeId":0,"value":0.77396506,"timestamp":1636011714,"classification":"phase3_power","gatewayEui64":"test-kda-bug"}
+    try {
+        var str = JSON.stringify(JSON.parse(rawJson), null, 2);
+    } catch (e) {
+        getField('beaut-json').innerHTML = str;
+    }
+
+    getField('beaut-json').innerHTML = str;
+}
+
+function copyJson() {
+    let beautJson = getField("beaut-json").innerHTML;
+    copy(JSON.stringify(JSON.parse(beautJson), null, "\t")); // Copy tabbed version
+}
 
 function getField(field) {
     return fields[field];
 }
 
-function chunk(str, n) {
-    let ret = [];
-    let i;
-    let len;
-
-    for(i = 0, len = str.length; i < len; i += n) {
-       ret.push(str.substr(i, n))
-    }
-
-    return ret
-};
 
