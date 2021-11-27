@@ -185,9 +185,9 @@ function beautifyJson() {
         return ;
     }
 
-    // {"gatewayIp":10048,"nodeEui64":"test-kda-bug","profileId":551,"endpointId":12,"clusterId":1794,"attributeId":0,"value":0.77396506,"timestamp":1636011714,"classification":"phase3_power","gatewayEui64":"test-kda-bug"}
+    // {'1637823600': {'avg_value': -1539548.1, 'max_value': -1505255.0, 'min_value': -1573847.0}
     try {
-        var str = JSON.stringify(JSON.parse(rawJson), null, 2);
+        var str = JSON.stringify(JSON.parse(rawJson.replaceAll("'", '"')), null, 2);
     } catch (e) {
         getField('beaut-json').innerHTML = str;
     }
