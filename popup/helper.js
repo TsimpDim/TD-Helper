@@ -15,7 +15,8 @@ let fields = {
     "copy-json": document.getElementById("copy-beaut-json-btn"),
     "myip": document.getElementById("myIpv4"),
     "ip-indicator": document.getElementById("ip-indicator"),
-    "ipvalue": document.getElementById("myIpv4")
+    "ipvalue": document.getElementById("myIpv4"),
+    "cur-unix": document.getElementById("cur-unix")
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -60,6 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
     getField("raw-json").addEventListener('keyup', beautifyJson, true);
     getField("copy-json").addEventListener('click', copyJson, true);
     getField("ipvalue").addEventListener('click', copyIp, true);
+    getField("cur-unix").addEventListener('click', copyCurrUnix, true);
+    setCurrUnix();
 });
 
 function handleIpRequest() {
@@ -200,6 +203,16 @@ function beautifyJson() {
 function copyIp() {
     let ip = getField('ipvalue').innerHTML;
     copy(ip);
+}
+
+function copyCurrUnix() {
+    let unix = getField('cur-unix').innerHTML;
+    copy(unix);
+}
+
+function setCurrUnix() {
+    let currUnix = getField('cur-unix');
+    currUnix.innerHTML = Math.floor(Date.now() / 1000);
 }
 
 function copyJson() {

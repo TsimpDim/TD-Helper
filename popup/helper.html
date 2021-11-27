@@ -15,7 +15,7 @@
       <div class="section">Hex/Dec</div>
       <div id="ip-container" class="row">
         <label id="ip-indicator" for="myIpv4" title="red -> your ip has changed. green -> your ip has not changed"></label>
-        <label id="myIpv4" title="your ipv4 address. click to copy">xxx.xxx.xxx.xxx</label>
+        <label id="myIpv4" class="clickable" title="your ipv4 address. click to copy">xxx.xxx.xxx.xxx</label>
       </div>
     </div>
     <div id="eui-functions" class="col">
@@ -45,6 +45,11 @@
 
     <div class="section">Time</div>
     <div id="phab-functions" class="col">
+      <div id="curr-unix" class="row">
+        <label for="cur-unix">Current:</label>
+        <label id="cur-unix" class="clickable"></label>
+      </div>
+
       <div id="unix-to-date" class="row">
         <label for="unix-ts">Unix</label>
         <input id="unix-ts" type="text" title="Unix" placeholder="1624626598"/>

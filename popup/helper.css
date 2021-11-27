@@ -67,6 +67,10 @@ input {
   width: 100%;
 }
 
-#myIpv4:active {
+.clickable:hover {
   color: rgb(85, 85, 250);
+}
+
+.clickable:active {
+  color: rgb(255, 106, 106);
 }
