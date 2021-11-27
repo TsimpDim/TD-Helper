@@ -14,7 +14,8 @@ let fields = {
     "beaut-json": document.getElementById("beaut-json"),
     "copy-json": document.getElementById("copy-beaut-json-btn"),
     "myip": document.getElementById("myIpv4"),
-    "ip-indicator": document.getElementById("ip-indicator")
+    "ip-indicator": document.getElementById("ip-indicator"),
+    "ipvalue": document.getElementById("myIpv4")
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -58,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getField("b64-encoded").addEventListener('keyup', decodeB64, true);
     getField("raw-json").addEventListener('keyup', beautifyJson, true);
     getField("copy-json").addEventListener('click', copyJson, true);
+    getField("ipvalue").addEventListener('click', copyIp, true);
 });
 
 function handleIpRequest() {
@@ -193,6 +195,11 @@ function beautifyJson() {
     }
 
     getField('beaut-json').innerHTML = str;
+}
+
+function copyIp() {
+    let ip = getField('ipvalue').innerHTML;
+    copy(ip);
 }
 
 function copyJson() {
