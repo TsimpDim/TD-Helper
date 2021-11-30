@@ -148,8 +148,8 @@ function unixToDate() {
         return ;
     }
 
-    let date = new Date(unixTs * 1000);
-    getField("f-date").value = date.toISOString().replace('Z', '');
+    let date = new Date(unixTs * 1000).toISOString().replace('Z', '');
+    getField("f-date").value = date;
 }
 
 function dateToUnix() {
@@ -157,6 +157,10 @@ function dateToUnix() {
     if (dateString === "") {
         getField("unix-ts").value = "";
         return ;
+    }
+
+    if (dateString.slice(-1) != 'Z') {
+        dateString += 'Z';
     }
 
     let dateObject = new Date(dateString);
