@@ -20,7 +20,7 @@ let fields = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    let storageKeys = ["phabHost", "phabToggle", "showIp"]
+    let storageKeys = ["phabHost", "phabToggle", "showIp", "ignoreIpList"]
     let currentURL = "";
 
     browser.storage.sync.get(storageKeys).then(results => {
@@ -31,9 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Show myIpv4 fields if chosen
+        var ignoreIpList = "";
+        delete results.ignoreIpList
         if (results.showIp === true) {
+            if ('ignoreIpList' in results) {
+                ignoreIpList = results.ignoreIpList;
+            }
+
             document.getElementById("ip-container").style.visibility = "visible";
-            handleIpRequest();
+            handleIpRequest(ignoreIpList);
         }
 
         // Start listener for the copy review text button
@@ -65,14 +71,15 @@ document.addEventListener('DOMContentLoaded', function() {
     setCurrUnix();
 });
 
-function handleIpRequest() {
+function handleIpRequest(ignoredIpList) {
     httpRequest("https://api.db-ip.com/v2/free/self")
     .then((d) => {
         let data = JSON.parse(d);
         let newIpv4 = data.ipAddress;
+        let ignoredList = ignoredIpList.split(',');
 
         browser.storage.sync.get("ipv4").then(r => {
-            if(r.ipv4 != newIpv4) {
+            if(!ignoredList.includes(newIpv4) && r.ipv4 != newIpv4) {
                 browser.storage.sync.set({"ipv4": newIpv4})
 
                 if(r.ipv4 != undefined) { // case where it's enabled for the first time

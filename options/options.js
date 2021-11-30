@@ -5,7 +5,8 @@ function saveOptions(e) {
         ytHost: document.getElementById("yt-host").value,
         phabHost: document.getElementById("phab-host").value,
         phabToggle: document.getElementById("phab-toggle").checked,
-        showIp: document.getElementById("showip-toggle").checked
+        showIp: document.getElementById("showip-toggle").checked,
+        ignoreIpList: document.getElementById("ignore-ip-list").value,
     }
     
     if (!window.chrome) {
@@ -22,13 +23,14 @@ function restoreOptions() {
         document.getElementById("phab-host").value = result.phabHost || "phabricator.org";
         document.getElementById("phab-toggle").checked = result.phabToggle || false;
         document.getElementById("showip-toggle").checked = result.showIp || false;
+        document.getElementById("ignore-ip-list").value = result.ignoreIpList || "";
     }
 
     function onError(error) {
         console.log(`Error: ${error}`);
     }
 
-    let storageKeys = ["ytHost", "phabHost", "phabToggle", "showIp"];
+    let storageKeys = ["ytHost", "phabHost", "phabToggle", "showIp", "ignoreIpList"];
 
     if (!window.chrome) {
         browser.storage.sync.get(storageKeys)
