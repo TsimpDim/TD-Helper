@@ -1,19 +1,14 @@
 let cursorX, cursorY;
-let languageMappings = {
-    'german': {
-        'languageCode': 'de',
-        'displayText': '2G',
-        'sourceLanguage': 'english'
-    },
-    'english': {
-        'languageCode': 'en',
-        'displayText': '2E',
-        'sourceLanguage': 'german'
-    }
-}
+let languageConfiguration;
 
 if (window == top) {
-    window.addEventListener('mouseup', checkForHighlights, false);
+    browser.storage.sync.get(["languageTranslation", "languageConfiguration"]).then(results => {
+        console.log(results);
+        if (results.languageTranslation === true) {
+            languageConfiguration = JSON.parse(results.languageConfiguration);
+            window.addEventListener('mouseup', checkForHighlights, false);
+        }
+    });
 }
 
 // Get the current mouse pointer position
@@ -37,9 +32,9 @@ function spawnAllButtons(textToTranslate) {
 
 function spawnButton(textToTranslate, language, extraOffsetX = 0){
     let newBut = document.createElement("button"); // Insert a button (the X) in the HTML
-    newBut.className= "ext_but";
+    newBut.className= "translation-btn";
 
-    newBut.innerHTML = languageMappings[language].displayText;
+    newBut.innerHTML = languageConfiguration[language].displayText;
     newBut.id = cursorX.toString() + cursorY.toString() + Math.random();
     document.body.appendChild(newBut);
 
@@ -49,15 +44,15 @@ function spawnButton(textToTranslate, language, extraOffsetX = 0){
     newBut.style.top  = (cursorY + offsetY) +'px';
 
 
-    let languageCode = languageMappings[language].languageCode;
-    let sourceLanguageCode = languageMappings[languageMappings[language].sourceLanguage].languageCode;
+    let languageCode = languageConfiguration[language].languageCode;
+    let sourceLanguageCode = languageConfiguration[languageConfiguration[language].sourceLanguage].languageCode;
     newBut.onclick = function() {
         window.open('https://translate.google.com/?sl=' + sourceLanguageCode + '&tl=' + languageCode + '&text=' + textToTranslate + '&op=translate')
     }
 
-    setTimeout(function(){
-        document.getElementById(newBut.id).remove();
-    },1500);
+    // setTimeout(function(){
+    //     document.getElementById(newBut.id).remove();
+    // },1500);
 }
 
 
