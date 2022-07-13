@@ -50,9 +50,9 @@ function spawnButton(textToTranslate, language, extraOffsetX = 0){
         window.open('https://translate.google.com/?sl=' + sourceLanguageCode + '&tl=' + languageCode + '&text=' + textToTranslate + '&op=translate')
     }
 
-    // setTimeout(function(){
-    //     document.getElementById(newBut.id).remove();
-    // },1500);
+    setTimeout(function(){
+        document.getElementById(newBut.id).remove();
+    },1500);
 }
 
 
