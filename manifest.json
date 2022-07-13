@@ -13,7 +13,11 @@
             "matches": ["<all_urls>"],
             "js": [
                 "external/browser-polyfill.min.js",
-                "/content-scripts/helper-cs.js"
+                "/content-scripts/helper-cs.js",
+                "/content-scripts/translation-cs.js"
+            ],
+            "css": [
+                "/content-scripts/css/content-scripts.css"
             ]
         }
     ],
