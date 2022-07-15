@@ -22,6 +22,7 @@ function restoreOptions() {
 
     function setCurrentChoice(result) {
         let defaultLanguageConfig = {
+            'timeout': 1500,
             'german': {
                 'languageCode': 'de',
                 'displayText': '2G',
