@@ -63,7 +63,7 @@ function spawnButton(textToTranslate, language, container, configuration){
 
     let sourceLanguageCode = configuration[configuration[language].sourceLanguage].languageCode;
     newBut.onclick = function() {
-        window.open('https://translate.google.com/?sl=' + sourceLanguageCode + '&tl=' + languageCode + '&text=' + textToTranslate + '&op=translate')
+        window.open('https://translate.google.com/?sl=' + sourceLanguageCode + '&tl=' + languageCode + '&text=' + encodeURIComponent(textToTranslate) + '&op=translate')
     }
 }
 
