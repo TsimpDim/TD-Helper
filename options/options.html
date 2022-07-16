@@ -4,37 +4,80 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="options.js"></script>
+		<link rel="stylesheet" href="options.css"/>
 	</head>
 
 	<body>
 		<form>
-			<label for="yt-host">YouTrack Host</label>
-			<input type="text" id="yt-host">
-			<br />
+			<div class="module-cont">
+				<div class="module-title">Phabricator Module</div>
+				<p class="module-desc">The Phabricator module allows one to copy an easily shared Markdown snippet, if
+					the title follows the format `YT-TicketID TicketTitle`.
+				</p>
+				<div class="options-cont">
+					<label for="phab-toggle">Enable Phabricator module</label>
+					<input type="checkbox" id="phab-toggle">
+				</div>
+				<div class="options-cont">
+					<label for="yt-host">YouTrack Host</label>
+					<input type="text" id="yt-host">
+					<div class="tooltip">!
+						<span class="tooltiptext">Required to build the copied link. Not needed if module is disabled.</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="phab-host">Phabricator Host</label>
+					<input type="text" id="phab-host">
+					<div class="tooltip">!
+						<span class="tooltiptext">Required to build the copied link. Not needed if module is disabled.</span>
+					</div>
+				</div>
+			</div>
 
-			<label for="phab-host">Phabricator Host</label>
-			<input type="text" id="phab-host">
-			<br />
+			<div class="module-cont">
+				<div class="module-title">IP Module</div>
+				<p class="module-desc">Displays the public IPv4 address on the upper-right corner as well as an indicator of
+					whether or not the IP has changed from last time. Ignored IPv4 addresses are not counted
+					as a change of IP.
+				</p>
+				<div class="options-cont">
+					<label for="showip-toggle">Enable IP module</label>
+					<input type="checkbox" id="showip-toggle">
+				</div>
+				<div class="options-cont">
+					<label for="ignore-ip-list">Ignored Ipv4 Addresses (comma delimited)</label>
+					<input type="text" id="ignore-ip-list">
+					<div class="tooltip">!
+						<span class="tooltiptext">Optional field. Has to be comma delimited (e.g `1.1.1.1,2.2.2.2`).</span>
+					</div>
+				</div>
+			</div>
 
-			<label for="phab-toggle">Show Phabricator Section</label>
-			<input type="checkbox" id="phab-toggle">
-			<br />
+			<div class="module-cont">
+				<div class="module-title">Highlighting Module</div>
+				<p class="module-desc">Displays widgets near the mouse cursor when text is highlighted. The Language Translation popup 
+					redirects to Google Translate according to the given language configuration.
+				</p>
+				<div class="options-cont">
+					<label for="highlighting-toggle">Enable Highlighting module</label>
+					<input type="checkbox" id="highlighting-toggle">
+					<div class="tooltip">!
+						<span class="tooltiptext">Each widget can be toggled separately, but this is the master switch.</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="language-translation">Language translation popups</label>
+					<input type="checkbox" id="language-translation">
+				</div>
+				<div class="options-cont">
+					<label for="language-configuration">Language configuration (JSON)</label>
+					<textarea type="text" id="language-configuration"></textarea>
+					<div class="tooltip">!
+						<span class="tooltiptext">Required field. Default configuration shows the required structure.</span>
+					</div>
+				</div>
+			</div>
 
-			<label for="showip-toggle">Show My Ipv4</label>
-			<input type="checkbox" id="showip-toggle">
-			<br />
-
-			<label for="ignore-ip-list">Ignored Ipv4 Addresses (comma delimited)</label>
-			<input type="text" id="ignore-ip-list">
-			<br />
-
-			<label for="language-translation">Language Translation Module</label>
-			<input type="checkbox" id="language-translation">
-			<br />
-
-			<label for="language-configuration">Language configuration (JSON)</label>
-			<input type="text" id="language-configuration">
-			<br />
 
 			<button type="submit">Save</button>
 		</form>

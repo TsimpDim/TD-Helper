@@ -1,0 +1,71 @@
+body {
+    padding: .5em;
+}
+
+.options-cont {
+    margin-bottom: 1em;
+}
+
+.options-cont input {
+    border: none;
+    border-bottom: 1px solid #323232;
+}
+
+.module-cont {
+    background: rgb(250, 253, 255);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border-radius: 10px;
+}
+
+.module-cont .options-cont {
+    padding: .2em .7em;
+}
+
+.module-cont .options-cont:last-of-type .tooltip:last-of-type {
+    padding-bottom: 1em;
+}
+
+.module-cont .module-desc {
+    padding-left: 1.2em;
+}
+
+.module-title {
+    background: rgb(0, 153, 255);
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.2em;
+    font-weight: 100;
+
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+
+    padding: .5em;
+}
+
+.module-desc {
+    font-weight: 300;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgba(93, 93, 93, 0.638);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
