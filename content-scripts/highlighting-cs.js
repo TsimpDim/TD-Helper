@@ -33,12 +33,12 @@ function handleAllWidgets(options) {
     let timeout = parseInt(options.widgetDuration);
     let selection = window.getSelection().toString();
 
-    let container = spawnContainer(timeout);
-    if (container === null) {
-        return;
-    }
-
     if (selection.length > 0) {
+        let container = spawnContainer(timeout);
+        if (container === null) {
+            return;
+        }
+
         if (options.toGoogle === true) {
             spawnToGoogleButton(container, selection);
         }

@@ -25,15 +25,15 @@ function restoreOptions() {
 
     function setCurrentChoice(result) {
         let defaultLanguageConfig = {
-            'german': {
-                'languageCode': 'de',
-                'displayText': '2G',
-                'sourceLanguage': 'english'
-            },
             'english': {
                 'languageCode': 'en',
                 'displayText': '2E',
                 'sourceLanguage': 'german'
+            },
+            'german': {
+                'languageCode': 'de',
+                'displayText': '2G',
+                'sourceLanguage': 'english'
             }
         }
 

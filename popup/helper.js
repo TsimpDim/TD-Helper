@@ -136,7 +136,7 @@ function sendCopyReviewTextCommand() {
                 });
             })
             .catch(error => {
-                console.log("error" + error);
+                console.log(`Error: ${error}`);
             })
         } else {
             chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
