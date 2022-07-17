@@ -14,7 +14,7 @@
             "js": [
                 "external/browser-polyfill.min.js",
                 "/content-scripts/helper-cs.js",
-                "/content-scripts/translation-cs.js"
+                "/content-scripts/highlighting-cs.js"
             ],
             "css": [
                 "/content-scripts/css/content-scripts.css"

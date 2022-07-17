@@ -1,4 +1,4 @@
-.translation-cont {
+.widget-cont {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -7,7 +7,7 @@
 
 }
 
-.translation-btn {
+.widget-btn {
     z-index: 1000;
   
     height: auto;
@@ -31,7 +31,7 @@
     transition: all .2s ease;
 }
   
-.translation-btn:hover {
+.widget-btn:hover {
     cursor: pointer;
     box-shadow: 2px 2px 10px .1px rgb(25, 75, 103);
     opacity: 100%;

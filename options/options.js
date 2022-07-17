@@ -8,8 +8,10 @@ function saveOptions(e) {
         showIp: document.getElementById("showip-toggle").checked,
         ignoreIpList: document.getElementById("ignore-ip-list").value,
         highlightingToggle: document.getElementById("highlighting-toggle").checked,
+        widgetDuration: document.getElementById("widget-duration").value,
         languageTranslation: document.getElementById("language-translation").checked,
-        languageConfiguration: document.getElementById("language-configuration").value
+        languageConfiguration: document.getElementById("language-configuration").value,
+        toGoogle: document.getElementById("to-google").checked
     }
 
     if (!window.chrome) {
@@ -23,7 +25,6 @@ function restoreOptions() {
 
     function setCurrentChoice(result) {
         let defaultLanguageConfig = {
-            'timeout': 1500,
             'german': {
                 'languageCode': 'de',
                 'displayText': '2G',
@@ -41,8 +42,10 @@ function restoreOptions() {
         document.getElementById("phab-toggle").checked = result.phabToggle || false;
         document.getElementById("showip-toggle").checked = result.showIp || false;
         document.getElementById("highlighting-toggle").checked = result.highlightingToggle || true;
+        document.getElementById("widget-duration").value = result.widgetDuration || 1500;
         document.getElementById("language-translation").checked = result.languageTranslation || false;
         document.getElementById("language-configuration").value = result.languageConfiguration || JSON.stringify(defaultLanguageConfig);
+        document.getElementById("to-google").checked = result.toGoogle || false;
     }
 
     function onError(error) {
@@ -51,8 +54,8 @@ function restoreOptions() {
 
     let storageKeys = [
         "ytHost", "phabHost", "phabToggle",
-        "showIp", "ignoreIpList", "highlightingToggle",
-        "languageTranslation", "languageConfiguration"
+        "showIp", "ignoreIpList", "highlightingToggle", "widgetDuration",
+        "languageTranslation", "languageConfiguration", "toGoogle"
     ];
 
     if (!window.chrome) {
