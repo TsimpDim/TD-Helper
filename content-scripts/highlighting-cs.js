@@ -7,6 +7,7 @@ if (window == top) {
             "languageTranslation",
             "languageConfiguration",
             "widgetDuration",
+            "widgetOverlap",
             "toGoogle"
         ]
     ).then(results => {
@@ -34,7 +35,7 @@ function handleAllWidgets(options) {
     let selection = window.getSelection().toString();
 
     if (selection.length > 0) {
-        let container = spawnContainer(timeout);
+        let container = spawnContainer(timeout, options.widgetOverlap);
         if (container === null) {
             return;
         }
@@ -51,12 +52,12 @@ function handleAllWidgets(options) {
 }
 
 
-function spawnContainer(timeout) {
+function spawnContainer(timeout, overlap) {
     let container = document.createElement("div");
     let c = getButtonSpawnCoords();
     let id = c.x + c.y;
 
-    if (document.getElementById(id) !== null) {
+    if (!overlap && document.getElementById(id) !== null) {
         return null;
     }
 

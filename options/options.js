@@ -9,6 +9,7 @@ function saveOptions(e) {
         ignoreIpList: document.getElementById("ignore-ip-list").value,
         highlightingToggle: document.getElementById("highlighting-toggle").checked,
         widgetDuration: document.getElementById("widget-duration").value,
+        widgetOverlap: document.getElementById("widget-overlap").checked,
         languageTranslation: document.getElementById("language-translation").checked,
         languageConfiguration: document.getElementById("language-configuration").value,
         toGoogle: document.getElementById("to-google").checked
@@ -43,6 +44,7 @@ function restoreOptions() {
         document.getElementById("showip-toggle").checked = result.showIp || false;
         document.getElementById("highlighting-toggle").checked = result.highlightingToggle || true;
         document.getElementById("widget-duration").value = result.widgetDuration || 1500;
+        document.getElementById("widget-overlap").checked = result.widgetOverlap || false;
         document.getElementById("language-translation").checked = result.languageTranslation || false;
         document.getElementById("language-configuration").value = result.languageConfiguration || JSON.stringify(defaultLanguageConfig);
         document.getElementById("to-google").checked = result.toGoogle || false;
@@ -54,7 +56,8 @@ function restoreOptions() {
 
     let storageKeys = [
         "ytHost", "phabHost", "phabToggle",
-        "showIp", "ignoreIpList", "highlightingToggle", "widgetDuration",
+        "showIp", "ignoreIpList", "highlightingToggle", 
+        "widgetOverlap", "widgetDuration",
         "languageTranslation", "languageConfiguration", "toGoogle"
     ];
 
