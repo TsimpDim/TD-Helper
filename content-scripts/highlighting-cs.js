@@ -67,9 +67,9 @@ function spawnContainer(timeout, overlap) {
     container.id = id;
     document.body.appendChild(container);
 
-    setTimeout(function(){
-        container.remove();
-    }, timeout);
+    // setTimeout(function(){
+    //     container.remove();
+    // }, timeout);
 
     return container;
 }
