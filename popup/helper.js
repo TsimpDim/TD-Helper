@@ -20,7 +20,16 @@ let fields = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    let storageKeys = ["phabHost", "phabToggle", "showIp", "ignoreIpList"]
+    let storageKeys = [
+        "showHexDec",
+        "showUnixTime",
+        "showBase64",
+        "showBeautJson",
+        "phabHost",
+        "phabToggle",
+        "showIp",
+        "ignoreIpList"
+    ]
     let currentURL = "";
 
     browser.storage.sync.get(storageKeys).then(results => {
@@ -28,6 +37,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (results.phabToggle === false) {
             document.getElementById("phab-section").remove();
             document.getElementById("phab-functions").remove();
+        }
+
+        // Remove disabled widgets
+        let totalWidgets = 4;
+        let removedWidgets = 0;
+        if (results.showHexDec === false) {
+            document.getElementById("hex-dec-container").remove();
+            removedWidgets++;
+        }
+        if (results.showUnixTime === false) {
+            document.getElementById("unix-time-container").remove();
+            removedWidgets++;
+        }
+        if (results.showBase64 === false) {
+            document.getElementById("base64-container").remove();
+            removedWidgets++;
+        }
+        if (results.showBeautJson === false) {
+            document.getElementById("beautify-json-container").remove();
+            removedWidgets++;
+        }
+
+        if (removedWidgets === totalWidgets) {
+            document.getElementById("no-widgets-message").style.display = 'block';
         }
 
         // Show myIpv4 fields if chosen

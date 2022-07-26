@@ -5,6 +5,10 @@ html, body {
   overflow-x: hidden;
 }
 
+#no-widgets-message {
+  display: none;
+}
+
 .col {
   display: flex;
   flex-direction: column;

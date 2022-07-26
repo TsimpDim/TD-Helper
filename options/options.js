@@ -2,6 +2,10 @@ function saveOptions(e) {
     e.preventDefault();
 
     let objToSet = {
+        showHexDec: document.getElementById("showhexdec-toggle").checked,
+        showUnixTime: document.getElementById("showunixtime-toggle").checked,
+        showBase64: document.getElementById("showbase64-toggle").checked,
+        showBeautJson: document.getElementById("showbeautjson-toggle").checked,
         ytHost: document.getElementById("yt-host").value,
         phabHost: document.getElementById("phab-host").value,
         phabToggle: document.getElementById("phab-toggle").checked,
@@ -38,16 +42,20 @@ function restoreOptions() {
             }
         }
 
+        document.getElementById("showhexdec-toggle").checked = result.showHexDec ?? true;
+        document.getElementById("showunixtime-toggle").checked = result.showUnixTime ?? true;
+        document.getElementById("showbase64-toggle").checked = result.showBase64 ?? true;
+        document.getElementById("showbeautjson-toggle").checked = result.showBeautJson ?? true;
         document.getElementById("yt-host").value = result.ytHost || "jetbrains.com";
         document.getElementById("phab-host").value = result.phabHost || "phabricator.org";
-        document.getElementById("phab-toggle").checked = result.phabToggle || false;
-        document.getElementById("showip-toggle").checked = result.showIp || false;
-        document.getElementById("highlighting-toggle").checked = result.highlightingToggle || true;
+        document.getElementById("phab-toggle").checked = result.phabToggle ?? false;
+        document.getElementById("showip-toggle").checked = result.showIp ?? false;
+        document.getElementById("highlighting-toggle").checked = result.highlightingToggle ?? true;
         document.getElementById("widget-duration").value = result.widgetDuration || 1500;
-        document.getElementById("widget-overlap").checked = result.widgetOverlap || false;
-        document.getElementById("language-translation").checked = result.languageTranslation || false;
+        document.getElementById("widget-overlap").checked = result.widgetOverlap ?? false;
+        document.getElementById("language-translation").checked = result.languageTranslation ?? false;
         document.getElementById("language-configuration").value = result.languageConfiguration || JSON.stringify(defaultLanguageConfig);
-        document.getElementById("to-google").checked = result.toGoogle || false;
+        document.getElementById("to-google").checked = result.toGoogle ?? false;
     }
 
     function onError(error) {
@@ -55,8 +63,9 @@ function restoreOptions() {
     }
 
     let storageKeys = [
+        "showHexDec", "showUnixTime", "showBase64", "showBeautJson",
         "ytHost", "phabHost", "phabToggle",
-        "showIp", "ignoreIpList", "highlightingToggle", 
+        "showIp", "ignoreIpList", "highlightingToggle",
         "widgetOverlap", "widgetDuration",
         "languageTranslation", "languageConfiguration", "toGoogle"
     ];
