@@ -5,6 +5,7 @@ function saveOptions(e) {
         showHexDec: document.getElementById("showhexdec-toggle").checked,
         showUnixTime: document.getElementById("showunixtime-toggle").checked,
         showBase64: document.getElementById("showbase64-toggle").checked,
+        showUrl: document.getElementById("showurl-toggle").checked,
         showBeautJson: document.getElementById("showbeautjson-toggle").checked,
         ytHost: document.getElementById("yt-host").value,
         phabHost: document.getElementById("phab-host").value,
@@ -45,6 +46,7 @@ function restoreOptions() {
         document.getElementById("showhexdec-toggle").checked = result.showHexDec ?? true;
         document.getElementById("showunixtime-toggle").checked = result.showUnixTime ?? true;
         document.getElementById("showbase64-toggle").checked = result.showBase64 ?? true;
+        document.getElementById("showurl-toggle").checked = result.showUrl ?? true;
         document.getElementById("showbeautjson-toggle").checked = result.showBeautJson ?? true;
         document.getElementById("yt-host").value = result.ytHost || "jetbrains.com";
         document.getElementById("phab-host").value = result.phabHost || "phabricator.org";
@@ -64,7 +66,7 @@ function restoreOptions() {
 
     let storageKeys = [
         "showHexDec", "showUnixTime", "showBase64", "showBeautJson",
-        "ytHost", "phabHost", "phabToggle",
+        "showUrl","ytHost", "phabHost", "phabToggle",
         "showIp", "ignoreIpList", "highlightingToggle",
         "widgetOverlap", "widgetDuration",
         "languageTranslation", "languageConfiguration", "toGoogle"

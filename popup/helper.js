@@ -10,6 +10,8 @@ let fields = {
     "f-date": document.getElementById("f-date"),
     "b64-encoded": document.getElementById("b64-encoded"),
     "b64-decoded": document.getElementById("b64-decoded"),
+    "url-encoded": document.getElementById("url-encoded"),
+    "url-decoded": document.getElementById("url-decoded"),
     "raw-json": document.getElementById("raw-json"),
     "beaut-json": document.getElementById("beaut-json"),
     "copy-json": document.getElementById("copy-beaut-json-btn"),
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Remove disabled widgets
-        let totalWidgets = 4;
+        let totalWidgets = 5;
         let removedWidgets = 0;
         if (results.showHexDec === false) {
             document.getElementById("hex-dec-container").remove();
@@ -56,6 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (results.showBeautJson === false) {
             document.getElementById("beautify-json-container").remove();
+            removedWidgets++;
+        }
+        if (results.showUrl === false) {
+            document.getElementById("url-container").remove();
             removedWidgets++;
         }
 
@@ -97,6 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
     getField("f-date").addEventListener('keyup', dateToUnix, true);
     getField("b64-decoded").addEventListener('keyup', encodeB64, true);
     getField("b64-encoded").addEventListener('keyup', decodeB64, true);
+    getField("url-encoded").addEventListener('keyup', decodeUrl, true);
+    getField("url-decoded").addEventListener('keyup', encodeUrl, true);
     getField("raw-json").addEventListener('keyup', beautifyJson, true);
     getField("copy-json").addEventListener('click', copyJson, true);
     getField("ipvalue").addEventListener('click', copyIp, true);
@@ -225,6 +233,26 @@ function encodeB64() {
     }
 
     getField('b64-encoded').value = btoa(ascText);
+}
+
+function decodeUrl() {
+    let encUrl = getField('url-encoded').value;
+    if (encUrl === "") {
+        getField('url-decoded').value = "";
+        return ;
+    }
+
+    getField('url-decoded').value = decodeURIComponent(encUrl);
+}
+
+function encodeUrl() {
+    let urlText = getField('url-decoded').value;
+    if (urlText === "") {
+        getField('url-encoded').value = "";
+        return ;
+    }
+
+    getField('url-encoded').value = encodeURIComponent(urlText);
 }
 
 function beautifyJson() {
