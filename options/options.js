@@ -17,6 +17,8 @@ function saveOptions(e) {
         widgetOverlap: document.getElementById("widget-overlap").checked,
         languageTranslation: document.getElementById("language-translation").checked,
         languageConfiguration: document.getElementById("language-configuration").value,
+        offsetX: document.getElementById("offset-x").value,
+        offsetY: document.getElementById("offset-y").value,
         toGoogle: document.getElementById("to-google").checked
     }
 
@@ -53,9 +55,11 @@ function restoreOptions() {
         document.getElementById("phab-toggle").checked = result.phabToggle ?? false;
         document.getElementById("showip-toggle").checked = result.showIp ?? false;
         document.getElementById("highlighting-toggle").checked = result.highlightingToggle ?? true;
-        document.getElementById("widget-duration").value = result.widgetDuration || 1500;
+        document.getElementById("widget-duration").value = result.widgetDuration ?? 1500;
         document.getElementById("widget-overlap").checked = result.widgetOverlap ?? false;
         document.getElementById("language-translation").checked = result.languageTranslation ?? false;
+        document.getElementById("offset-x").value = result.offsetX ?? -5;
+        document.getElementById("offset-y").value = result.offsetY ?? 5;
         document.getElementById("language-configuration").value = result.languageConfiguration || JSON.stringify(defaultLanguageConfig);
         document.getElementById("to-google").checked = result.toGoogle ?? false;
     }
@@ -68,7 +72,7 @@ function restoreOptions() {
         "showHexDec", "showUnixTime", "showBase64", "showBeautJson",
         "showUrl","ytHost", "phabHost", "phabToggle",
         "showIp", "ignoreIpList", "highlightingToggle",
-        "widgetOverlap", "widgetDuration",
+        "widgetOverlap", "widgetDuration", "offsetX", "offsetY",
         "languageTranslation", "languageConfiguration", "toGoogle"
     ];
 

@@ -35,35 +35,38 @@ function handleAllWidgets(options) {
     let selection = window.getSelection().toString();
 
     if (selection.length > 0) {
-        let container = spawnContainer(timeout, options.widgetOverlap);
-        if (container === null) {
-            return;
-        }
+        spawnContainer(timeout, options.widgetOverlap).then(container => {
+            console.log(container);
+            if (container === null) {
+                return;
+            }
 
-        if (options.toGoogle === true) {
-            spawnToGoogleButton(container, selection);
-        }
+            if (options.toGoogle === true) {
+                spawnToGoogleButton(container, selection);
+            }
 
-        // in case it is turned off
-        if (languageConfiguration !== null) {
-            spawnTranslationButtons(container, selection, languageConfiguration);
-        }
+            // in case it is turned off
+            if (languageConfiguration !== null) {
+                spawnTranslationButtons(container, selection, languageConfiguration);
+            }
+        });
     }
 }
 
 
-function spawnContainer(timeout, overlap) {
+async function spawnContainer(timeout, overlap) {
     let container = document.createElement("div");
-    let c = getButtonSpawnCoords();
-    let id = c.x + c.y;
-
+    let c = await browser.storage.sync.get(["offsetX", "offsetY"]);
+    let coordsX = cursorX + parseInt(c.offsetX) + 'px';
+    let coordsY = cursorY + parseInt(c.offsetY) + 'px';
+    let id = coordsX + coordsY;
     if (!overlap && document.getElementById(id) !== null) {
         return null;
     }
 
     container.className = "widget-cont";
-    container.style.left = c.x;
-    container.style.top  = c.y;
+    container.style.left = coordsX;
+    container.style.top  = coordsY;
     container.id = id;
     document.body.appendChild(container);
 
@@ -71,7 +74,8 @@ function spawnContainer(timeout, overlap) {
     //     container.remove();
     // }, timeout);
 
-    return container;
+    return container; 
+
 }
 
 
@@ -98,10 +102,4 @@ function spawnButton(container, displayText, onclickf){
     newBut.innerHTML = displayText;
     newBut.onclick = onclickf;
     container.appendChild(newBut);
-}
-
-function getButtonSpawnCoords() {
-    let offsetX = 5;
-    let offsetY = 5;
-    return {'x': cursorX + offsetX + 'px', 'y': cursorY + offsetY + 'px'}
 }
