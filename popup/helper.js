@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "showUnixTime",
         "showBase64",
         "showBeautJson",
+        "showUrl",
         "phabHost",
         "phabToggle",
         "showIp",
