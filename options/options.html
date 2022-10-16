@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<script type="text/javascript" src="options.js"></script>
 		<link rel="stylesheet" href="options.css"/>
+		<script type="text/javascript" src="options_data.js"></script>
 	</head>
 
 	<body>
@@ -102,14 +103,6 @@
 					<input type="number" min="200" id="widget-duration">
 				</div>
 				<div class="options-cont">
-					<label for="language-translation">Language translation popups</label>
-					<input type="checkbox" id="language-translation">
-				</div>
-				<div class="options-cont">
-					<label for="to-google">"Search in Google" popup</label>
-					<input type="checkbox" id="to-google">
-				</div>
-				<div class="options-cont">
 					<label for="offset-x">Offset X (px)</label>
 					<input type="number" id="offset-x">
 					<div class="tooltip">!
@@ -124,10 +117,36 @@
 					</div>
 				</div>
 				<div class="options-cont">
+					<label for="language-translation">Language translation popups</label>
+					<input type="checkbox" id="language-translation">
+				</div>
+				<div class="options-cont">
+					<label for="to-google">"Search in Google" popup</label>
+					<input type="checkbox" id="to-google">
+				</div>
+				<div class="options-cont">
+					<label for="to-google-text">"Search in Google" text</label>
+					<input type="text" id="to-google-text">
+					<div class="tooltip">!
+						<span class="tooltiptext">Optional field. Defaults to "G"</span>
+					</div>
+				</div>
+				<div class="options-cont">
 					<label for="language-configuration">Language configuration (JSON)</label>
 					<textarea type="text" id="language-configuration"></textarea>
 					<div class="tooltip">!
 						<span class="tooltiptext">Required field. Default configuration shows the required structure.</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="to-clipboard">"Copy to clipboard" popup</label>
+					<input type="checkbox" id="to-clipboard">
+				</div>
+				<div class="options-cont">
+					<label for="to-clipboard-text">"Copy to clipboard" text</label>
+					<input type="text" id="to-clipboard-text">
+					<div class="tooltip">!
+						<span class="tooltiptext">Optional field. Defaults to "C"</span>
 					</div>
 				</div>
 			</div>

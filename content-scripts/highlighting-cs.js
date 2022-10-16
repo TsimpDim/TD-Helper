@@ -8,7 +8,10 @@ if (window == top) {
             "languageConfiguration",
             "widgetDuration",
             "widgetOverlap",
-            "toGoogle"
+            "toGoogle",
+            "toGoogleText",
+            "toClipboard",
+            "toClipboardText"
         ]
     ).then(results => {
         if (results.highlightingToggle === true) {
@@ -27,7 +30,7 @@ document.onmousemove = function(e){
 
 function handleAllWidgets(options) {
     let languageConfiguration = null;
-    if (options.languageTranslation === true) {
+    if (options.languageTranslation) {
         languageConfiguration = JSON.parse(options.languageConfiguration);
     }
 
@@ -36,18 +39,21 @@ function handleAllWidgets(options) {
 
     if (selection.length > 0) {
         spawnContainer(timeout, options.widgetOverlap).then(container => {
-            console.log(container);
             if (container === null) {
                 return;
             }
 
-            if (options.toGoogle === true) {
-                spawnToGoogleButton(container, selection);
+            if (options.toGoogle) {
+                spawnToGoogleButton(container, selection, options.toGoogleText, 'to-google');
             }
 
             // in case it is turned off
             if (languageConfiguration !== null) {
-                spawnTranslationButtons(container, selection, languageConfiguration);
+                spawnTranslationButtons(container, selection, languageConfiguration, 'primary');
+            }
+
+            if (options.toClipboard) {
+                spawnToClipboardButton(container, selection, options.toClipboardText, 'secondary');
             }
         });
     }
@@ -79,27 +85,45 @@ async function spawnContainer(timeout, overlap) {
 }
 
 
-function spawnToGoogleButton(container, selection) {
-    spawnButton(container, "G", function(){
+function spawnToGoogleButton(container, selection, toGoogleText, desiredClass) {
+    spawnButton(container, toGoogleText, desiredClass, function(){
         window.open('https://google.com/search?q=' + encodeURIComponent(selection));
     });
 }
 
-function spawnTranslationButtons(container, textToTranslate, langConfiguration) {
+function spawnToClipboardButton(container, selection, toClipboardText, desiredClass) {
+    spawnButton(container, toClipboardText, desiredClass, function() {
+        if (!window.chrome) {
+            navigator.clipboard.writeText(selection)
+            .then(() => {
+                console.log("Link copied to clipboard.");
+            })
+            .catch(e => {console.log(e)});
+        } else {
+            self.hardcoreCopy(selection);
+        }
+        
+        // Immediately kill container
+        container.remove();
+    }); 
+}
+
+function spawnTranslationButtons(container, textToTranslate, langConfiguration, desiredClass) {
     Object.keys(langConfiguration).forEach(el => {
         let languageCode = langConfiguration[el].languageCode;
         let sourceLanguageCode = langConfiguration[langConfiguration[el].sourceLanguage].languageCode;
 
-        spawnButton(container, langConfiguration[el].displayText, function(){
+        spawnButton(container, langConfiguration[el].displayText, desiredClass, function(){
             window.open('https://translate.google.com/?sl=' + sourceLanguageCode + '&tl=' + languageCode + '&text=' + encodeURIComponent(textToTranslate) + '&op=translate')
         });
     });
 }
 
-function spawnButton(container, displayText, onclickf){
+function spawnButton(container, displayText, desiredClass, onclickf){
     let newBut = document.createElement("button");
-    newBut.className = "widget-btn";
     newBut.innerHTML = displayText;
+    newBut.classList.add(desiredClass);
+    newBut.classList.add('widget-btn');
     newBut.onclick = onclickf;
     container.appendChild(newBut);
 }
