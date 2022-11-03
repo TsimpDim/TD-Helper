@@ -157,6 +157,69 @@ const optionsData = {
             "type": "string",
             "default": "C",
             "containsJson": false
-        }
+        },
+        {
+            "property": "onLinkHoverToggle",
+            "htmlId": "on-link-hover-toggle",
+            "type": "boolean",
+            "default": false,
+            "containsJson": false
+        },
+        {
+            "property": "linkOpenText",
+            "htmlId": "link-open-text",
+            "type": "string",
+            "default": "Open",
+            "containsJson": false
+        },
+        {
+            "property": "linkOpenToggle",
+            "htmlId": "link-open-toggle",
+            "type": "boolean",
+            "default": false,
+            "containsJson": false
+        },
+        {
+            "property": "linkCopyToggle",
+            "htmlId": "link-copy-toggle",
+            "type": "boolean",
+            "default": false,
+            "containsJson": false
+        },
+        {
+            "property": "linkCopyText",
+            "htmlId": "link-copy-text",
+            "type": "string",
+            "default": "Copy",
+            "containsJson": false
+        },
+        {
+            "property": "linkHoverKey",
+            "htmlId": "link-hover-key",
+            "type": "string",
+            "default": "Control",
+            "containsJson": false
+        },
+        {
+            "property": "linkOffsetX",
+            "htmlId": "link-offset-x",
+            "type": "string",
+            "default": "5",
+            "containsJson": false
+        },
+        {
+            "property": "linkOffsetY",
+            "htmlId": "link-offset-y",
+            "type": "string",
+            "default": "10",
+            "containsJson": false
+        },
+        {
+            "property": "linkWidgetDuration",
+            "htmlId": "link-widget-duration",
+            "type": "string",
+            "default": "1500",
+            "containsJson": false
+        },
     ]
 };

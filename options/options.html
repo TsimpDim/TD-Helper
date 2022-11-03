@@ -11,7 +11,7 @@
 	<body>
 		<form>
 			<div class="module-cont">
-				<div class="module-title">Add-on Pop-ups</div>
+				<div class="module-title">Pop-up Module</div>
 				<p class="module-desc">Controls for all the widgets in the addon's popup.</p>
 				<div class="options-cont">
 					<label for="showhexdec-toggle">Enable Hex/Dec widget</label>
@@ -150,7 +150,70 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="module-cont">
+				<div class="module-title">Link Hover Module</div>
+				<p class="module-desc">Displays widgets next to hovered-over links IF a control key is also pressed at the same time.</p>
+				<div class="options-cont">
+					<label for="on-link-hover-toggle">Enable "On-Link-Hover" module</label>
+					<input type="checkbox" id="on-link-hover-toggle">
+					<div class="tooltip">!
+						<span class="tooltiptext">Toggles showing popups when hovering over links</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-hover-key">"On-Link-Hover" key</label>
+					<input type="text" id="link-hover-key">
+					<div class="tooltip">!
+						<span class="tooltiptext">Click inside the field and press the desired key</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-open-toggle">"Open link" toggle</label>
+					<input type="checkbox"  id="link-open-toggle">
+					<div class="tooltip">!
+						<span class="tooltiptext">Toggles showing an 'open in new tab' popup when hovering over links</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-open-text">"Open link" text</label>
+					<input type="text" id="link-open-text">
+					<div class="tooltip">!
+						<span class="tooltiptext">Text to show for the "open link in new tab" popup</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-copy-toggle">"Copy link" toggle</label>
+					<input type="checkbox"  id="link-copy-toggle">
+					<div class="tooltip">!
+						<span class="tooltiptext">Toggles showing a 'copy to clipboard' popup when hovering over links</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-copy-text">"Copy link" text</label>
+					<input type="text" id="link-copy-text">
+					<div class="tooltip">!
+						<span class="tooltiptext">Text to show for the "copy url to clipboard" popup</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-widget-duration">Widget display duration (ms)</label>
+					<input type="number" min="200" id="link-widget-duration">
+				</div>
+				<div class="options-cont">
+					<label for="link-offset-x">Offset X (px)</label>
+					<input type="number" id="link-offset-x">
+					<div class="tooltip">!
+						<span class="tooltiptext">Horizontal offset of the popups</span>
+					</div>
+				</div>
+				<div class="options-cont">
+					<label for="link-offset-y">Offset Y (px)</label>
+					<input type="number" id="link-offset-y">
+					<div class="tooltip">!
+						<span class="tooltiptext">Vertical offset of the popups</span>
+					</div>
+				</div>
+			</div>
 
 			<button type="submit">Save</button>
 		</form>

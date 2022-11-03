@@ -58,4 +58,7 @@ function restoreOptions() {
 document.addEventListener("DOMContentLoaded", function () {
     restoreOptions();
     document.querySelector("form").addEventListener("submit", saveOptions);
+    document.getElementById('link-hover-key').addEventListener('keyup', function(e) {
+        document.getElementById('link-hover-key').value = e.key;
+    });
 });

@@ -1,4 +1,4 @@
-let cursorX, cursorY;
+let cursorX, cursorY, switchKeyPressed;
 
 if (window == top) {
     browser.storage.sync.get(
@@ -11,13 +11,33 @@ if (window == top) {
             "toGoogle",
             "toGoogleText",
             "toClipboard",
-            "toClipboardText"
+            "toClipboardText",
+            "onLinkHoverToggle",
+            "linkOpenText",
+            "linkOpenToggle",
+            "linkWidgetDuration",
+            "linkCopyToggle"
         ]
     ).then(results => {
         if (results.highlightingToggle === true) {
             window.addEventListener('mouseup', () => {
-                handleAllWidgets(results);
+                handleAllHighlightingWidgets(results, {
+                    'linkHover': false
+                });
             }, false);
+        }
+
+        if (results.onLinkHoverToggle === true) {
+            document.querySelectorAll('a').forEach(el =>
+                el.onmouseover = function(e) {
+                    if(e.target.localName === 'a' && switchKeyPressed) {
+                        handleAllLinkHoverWidgets(results, {
+                            'X': el.getBoundingClientRect().right + document.documentElement.scrollLeft,
+                            'Y': el.getBoundingClientRect().top + document.documentElement.scrollTop,
+                        }, e.target.href);
+                    }
+                }
+            )
         }
     });
 }
@@ -28,17 +48,34 @@ document.onmousemove = function(e){
     cursorY = e.pageY;
 };
 
-function handleAllWidgets(options) {
+document.addEventListener('keydown', function(e){
+    browser.storage.sync.get(["linkHoverKey"]).then(r => {
+        if(e.key === r.linkHoverKey) {
+            switchKeyPressed = true;
+        }
+    });
+});
+
+document.addEventListener('keyup', function(e){
+    browser.storage.sync.get(["linkHoverKey"]).then(r => {
+        if(e.key === r.linkHoverKey) {
+            switchKeyPressed = false;
+        }
+    });
+});
+
+function handleAllHighlightingWidgets(options) {
+    let timeout = parseInt(options.widgetDuration);
+
     let languageConfiguration = null;
     if (options.languageTranslation) {
         languageConfiguration = JSON.parse(options.languageConfiguration);
     }
 
-    let timeout = parseInt(options.widgetDuration);
     let selection = window.getSelection().toString();
 
     if (selection.length > 0) {
-        spawnContainer(timeout, options.widgetOverlap).then(container => {
+        spawnContainer(timeout, options.widgetOverlap, cursorX, cursorY, ["offsetX", "offsetY"]).then(container => {
             if (container === null) {
                 return;
             }
@@ -59,12 +96,28 @@ function handleAllWidgets(options) {
     }
 }
 
+function handleAllLinkHoverWidgets(options, coords, hoveredUrl) {
+    spawnContainer(options.linkWidgetDuration, false, coords.X, coords.Y, ["linkOffsetX", "linkOffsetY"])
+    .then(container => {
+        if (container === null) {
+            return;
+        }
 
-async function spawnContainer(timeout, overlap) {
+        if (options.linkOpenToggle) {
+            spawnOpenInNewTabButton(container, options.linkOpenText, hoveredUrl, 'secondary');
+        }
+
+        if (options.linkCopyToggle) {
+            spawnToClipboardButton(container, hoveredUrl, options.toClipboardText, 'secondary')
+        }
+    })
+}
+
+async function spawnContainer(timeout, overlap, cX, cY, offsetParams) {
     let container = document.createElement("div");
-    let c = await browser.storage.sync.get(["offsetX", "offsetY"]);
-    let coordsX = cursorX + parseInt(c.offsetX) + 'px';
-    let coordsY = cursorY + parseInt(c.offsetY) + 'px';
+    let c = await browser.storage.sync.get(offsetParams);
+    let coordsX = cX + parseInt(c[offsetParams[0]]) + 'px';
+    let coordsY = cY + parseInt(c[offsetParams[1]]) + 'px';
     let id = coordsX + coordsY;
     if (!overlap && document.getElementById(id) !== null) {
         return null;
@@ -88,6 +141,12 @@ async function spawnContainer(timeout, overlap) {
 function spawnToGoogleButton(container, selection, toGoogleText, desiredClass) {
     spawnButton(container, toGoogleText, desiredClass, function(){
         window.open('https://google.com/search?q=' + encodeURIComponent(selection));
+    });
+}
+
+function spawnOpenInNewTabButton(container, linkOpenText, selection, desiredClass) {
+    spawnButton(container, linkOpenText, desiredClass, function(){
+        window.open(selection, '_blank');
     });
 }
 
