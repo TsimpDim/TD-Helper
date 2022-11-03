@@ -14,6 +14,9 @@ It currently provides the following functionality:
   - "Search in Google" functionality
   - Translation to-and-from languages via Google Translate
   - "Copy to clipboard" functionality
+- Link hovering module (when hovering over links while pressing a user-defined key)
+  - "Open in new tab" functionality
+  - "Copy to clipboard" functionality
 
 ## Installation
 ### Firefox
