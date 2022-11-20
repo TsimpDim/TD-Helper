@@ -263,7 +263,16 @@ function beautifyJson() {
         return ;
     }
 
-    // {'1637823600': {'avg_value': -1539548.1, 'max_value': -1505255.0, 'min_value': -1573847.0}
+    // '1637823600': {'avg_value': -1539, 'max_value': -15052, 'min_value': -1573}
+    if (rawJson[0] !== '{') {rawJson = '{' + rawJson}
+    if (rawJson[rawJson.length-1] !== '}') {rawJson = rawJson + '}'}
+    const openingBrackets = rawJson.match(/{/g).length;
+    const closingBrackets = rawJson.match(/}/g).length;
+
+    if (openingBrackets > closingBrackets) {
+        rawJson = rawJson + '}'.repeat(openingBrackets-closingBrackets);
+    }
+
     try {
         var str = JSON.stringify(JSON.parse(rawJson.replaceAll("'", '"')), null, 2);
     } catch (e) {

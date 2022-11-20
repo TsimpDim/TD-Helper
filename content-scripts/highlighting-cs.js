@@ -1,4 +1,4 @@
-let cursorX, cursorY, switchKeyPressed;
+let cursorX, cursorY, switchKeyPressed, hoveredElement, highlightedSelection, detectedChunk;
 
 if (window == top) {
     browser.storage.sync.get(
@@ -28,6 +28,36 @@ if (window == top) {
         }
 
         if (results.onLinkHoverToggle === true) {
+            // Search every element, as well as potentially plaintext URLs
+            document.addEventListener('mousemove', (e) => {
+                const el = document.elementFromPoint(e.clientX, e.clientY);
+                if (!el || el === null) return;
+                if (el === hoveredElement) return; else hoveredElement = el;
+
+
+                const urlChunk = el.textContent.split(' ').find(c => isURL(c));
+                const coords = {
+                    'X': el.getBoundingClientRect().right + document.documentElement.scrollLeft,
+                    'Y': el.getBoundingClientRect().top + document.documentElement.scrollTop,
+                }
+                
+                if(switchKeyPressed) {
+
+                    if (el.localName === 'a') {
+                        handleAllLinkHoverWidgets(results, coords, el.href);
+                    }
+                    else if (isURL(el.textContent)) {
+                        handleAllLinkHoverWidgets(results, coords, el.textContent);
+                    }
+                    else if (urlChunk) {
+                        if (urlChunk === detectedChunk) return; else detectedChunk = urlChunk;
+
+                        handleAllLinkHoverWidgets(results, {'X': cursorX, 'Y': cursorY}, urlChunk);
+                    }
+                }
+            });
+
+            // Specifically search a's
             document.querySelectorAll('a').forEach(el =>
                 el.onmouseover = function(e) {
                     if(e.target.localName === 'a' && switchKeyPressed) {
@@ -47,6 +77,11 @@ document.onmousemove = function(e){
     cursorX = e.pageX;
     cursorY = e.pageY;
 };
+
+// If focus change, set switchKeyPressed to false
+onVisibilityChange(function(e) {
+    switchKeyPressed = false;
+});
 
 document.addEventListener('keydown', function(e){
     browser.storage.sync.get(["linkHoverKey"]).then(r => {
@@ -75,6 +110,8 @@ function handleAllHighlightingWidgets(options) {
     let selection = window.getSelection().toString();
 
     if (selection.length > 0) {
+        if (selection === highlightedSelection) return; else highlightedSelection = selection;
+
         spawnContainer(timeout, options.widgetOverlap, cursorX, cursorY, ["offsetX", "offsetY"]).then(container => {
             if (container === null) {
                 return;
@@ -119,8 +156,8 @@ async function spawnContainer(timeout, overlap, cX, cY, offsetParams) {
     let coordsX = cX + parseInt(c[offsetParams[0]]) + 'px';
     let coordsY = cY + parseInt(c[offsetParams[1]]) + 'px';
     let id = coordsX + coordsY;
-    if (!overlap && document.getElementById(id) !== null) {
-        return null;
+    if (document.getElementById(id)) {
+        document.getElementById(id).remove();
     }
 
     container.className = "widget-cont";
@@ -131,10 +168,10 @@ async function spawnContainer(timeout, overlap, cX, cY, offsetParams) {
 
     setTimeout(function(){
         container.remove();
+        detectedChunk = '';
     }, timeout);
 
     return container; 
-
 }
 
 

@@ -52,3 +52,61 @@ function hardcoreCopy(text) {
     document.execCommand('copy');
     ta.remove();
 }
+
+function onVisibilityChange(callback) {
+    // https://stackoverflow.com/a/38710376/8020959
+    var visible = true;
+
+    if (!callback) {
+        throw new Error('no callback given');
+    }
+
+    function focused() {
+        if (!visible) {
+            callback(visible = true);
+        }
+    }
+
+    function unfocused() {
+        if (visible) {
+            callback(visible = false);
+        }
+    }
+
+    // Standards:
+    if ('hidden' in document) {
+        visible = !document.hidden;
+        document.addEventListener('visibilitychange',
+            function() {(document.hidden ? unfocused : focused)()});
+    }
+    if ('mozHidden' in document) {
+        visible = !document.mozHidden;
+        document.addEventListener('mozvisibilitychange',
+            function() {(document.mozHidden ? unfocused : focused)()});
+    }
+    if ('webkitHidden' in document) {
+        visible = !document.webkitHidden;
+        document.addEventListener('webkitvisibilitychange',
+            function() {(document.webkitHidden ? unfocused : focused)()});
+    }
+    if ('msHidden' in document) {
+        visible = !document.msHidden;
+        document.addEventListener('msvisibilitychange',
+            function() {(document.msHidden ? unfocused : focused)()});
+    }
+    // IE 9 and lower:
+    if ('onfocusin' in document) {
+        document.onfocusin = focused;
+        document.onfocusout = unfocused;
+    }
+    // All others:
+    window.onpageshow = window.onfocus = focused;
+    window.onpagehide = window.onblur = unfocused;
+};
+
+function isURL(str) {
+    // https://stackoverflow.com/a/22648406/8020959
+    var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    var url = new RegExp(urlRegex, 'i');
+    return str.length < 2083 && url.test(str);
+}

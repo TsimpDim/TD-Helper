@@ -85,13 +85,6 @@ const optionsData = {
             "containsJson": false
         },
         {
-            "property": "widgetOverlap",
-            "htmlId": "widget-overlap",
-            "type": "boolean",
-            "default": false,
-            "containsJson": false
-        },
-        {
             "property": "languageTranslation",
             "htmlId": "language-translation",
             "type": "boolean",
