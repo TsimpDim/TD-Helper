@@ -3,6 +3,7 @@ function saveOptions(e) {
     let objToSet = {}
     optionsData.options.forEach(option => {
         const domEl = document.getElementById(option.htmlId);
+
         if (option.type === "string") {
             objToSet[option.property] = domEl.value;
         } else if (option.type === "boolean") {
@@ -23,7 +24,7 @@ function restoreOptions() {
 
         optionsData.options.forEach(option => {
             let value = result[option.property];
-            if (!value) {
+            if (value === undefined) {
                 value = option.default
             }
 

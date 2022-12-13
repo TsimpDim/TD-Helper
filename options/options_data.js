@@ -214,5 +214,19 @@ const optionsData = {
             "default": "1500",
             "containsJson": false
         },
+        {
+            "property": "forceHoverListener",
+            "htmlId": "force-hover-listener",
+            "type": "boolean",
+            "default": false,
+            "containsJson": false
+        },
+        {
+            "property": "removeOnClick",
+            "htmlId": "remove-on-click",
+            "type": "boolean",
+            "default": true,
+            "containsJson": false
+        },
     ]
 };

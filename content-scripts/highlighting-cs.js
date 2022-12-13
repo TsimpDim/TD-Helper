@@ -16,7 +16,8 @@ if (window == top) {
             "linkOpenText",
             "linkOpenToggle",
             "linkWidgetDuration",
-            "linkCopyToggle"
+            "linkCopyToggle",
+            "forceHoverListener"
         ]
     ).then(results => {
         if (results.highlightingToggle === true) {
@@ -57,17 +58,19 @@ if (window == top) {
                 }
             });
 
-            // Specifically search a's
-            document.querySelectorAll('a').forEach(el =>
-                el.onmouseover = function(e) {
-                    if(e.target.localName === 'a' && switchKeyPressed) {
-                        handleAllLinkHoverWidgets(results, {
-                            'X': el.getBoundingClientRect().right + document.documentElement.scrollLeft,
-                            'Y': el.getBoundingClientRect().top + document.documentElement.scrollTop,
-                        }, e.target.href);
+            if(results.forceHoverListener) {
+                // Specifically search a's
+                document.querySelectorAll('a').forEach(el =>
+                    el.onmouseover = function(e) {
+                        if(e.target.localName === 'a' && switchKeyPressed) {
+                            handleAllLinkHoverWidgets(results, {
+                                'X': el.getBoundingClientRect().right + document.documentElement.scrollLeft,
+                                'Y': el.getBoundingClientRect().top + document.documentElement.scrollTop,
+                            }, e.target.href);
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     });
 }
@@ -87,6 +90,7 @@ document.addEventListener('keydown', function(e){
     browser.storage.sync.get(["linkHoverKey"]).then(r => {
         if(e.key === r.linkHoverKey) {
             switchKeyPressed = true;
+            console.log("PRESSED");
         }
     });
 });
@@ -97,6 +101,21 @@ document.addEventListener('keyup', function(e){
             switchKeyPressed = false;
         }
     });
+});
+
+browser.storage.sync.get(['removeOnClick']).then(response => {
+    const removeOnClick = response.removeOnClick;
+    if (removeOnClick && removeOnClick === true) {
+        document.addEventListener('click', function(e){
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            const container = document.getElementsByClassName('widget-cont');
+
+            if (container.length > 0 && !!el && !el.classList.contains('widget-cont')) {
+                document.getElementsByClassName('widget-cont')[0].remove();
+                highlightedSelection = '';
+            }
+        });
+    }
 });
 
 function handleAllHighlightingWidgets(options) {
