@@ -90,7 +90,6 @@ document.addEventListener('keydown', function(e){
     browser.storage.sync.get(["linkHoverKey"]).then(r => {
         if(e.key === r.linkHoverKey) {
             switchKeyPressed = true;
-            console.log("PRESSED");
         }
     });
 });
@@ -142,11 +141,11 @@ function handleAllHighlightingWidgets(options) {
 
             // in case it is turned off
             if (languageConfiguration !== null) {
-                spawnTranslationButtons(container, selection, languageConfiguration, 'primary');
+                spawnTranslationButtons(container, selection, languageConfiguration, 'helper-btn-primary');
             }
 
             if (options.toClipboard) {
-                spawnToClipboardButton(container, selection, options.toClipboardText, 'secondary');
+                spawnToClipboardButton(container, selection, options.toClipboardText, 'helper-btn-secondary');
             }
         });
     }

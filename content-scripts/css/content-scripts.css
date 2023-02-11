@@ -48,20 +48,20 @@
     box-shadow: 2px 2px 10px .1px rgba(172, 80, 43, 0.4); 
 }
 
-.primary {
+.helper-btn-primary {
     box-shadow: 0 0 0 0 rgb(25, 75, 103, 0.4);
     background-color: rgb(25, 75, 103, 0.4);
 }
 
-.primary:hover {
+.helper-btn-primary:hover {
     box-shadow: 2px 2px 10px .1px rgb(25, 75, 103, 0.4);
 }
 
-.secondary {
+.helper-btn-secondary {
     box-shadow: 0 0 0 0 rgba(51, 118, 30, 0.598);
     background-color: rgb(50, 118, 30, 0.4);
 }
 
-.secondary:hover {
+.helper-btn-secondary:hover {
     box-shadow: 2px 2px 10px .1px rgb(50, 118, 30, 0.4);
 }
