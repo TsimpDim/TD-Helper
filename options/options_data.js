@@ -85,28 +85,26 @@ const optionsData = {
             "containsJson": false
         },
         {
-            "property": "languageTranslation",
-            "htmlId": "language-translation",
+            "property": "actionPopup",
+            "htmlId": "action-popup",
             "type": "boolean",
             "default": true,
             "containsJson": false
         },
         {
-            "property": "languageConfiguration",
-            "htmlId": "language-configuration",
+            "property": "actionConfiguration",
+            "htmlId": "action-configuration",
             "type": "string",
-            "default": {
-                "english": {
-                    "languageCode":"en",
+            "default": [
+                {
+                    "url":"https://translate.google.com/?sl=de&tl=en&text={text}&op=translate",
                     "displayText":"2E",
-                    "sourceLanguage":"german"
                 },
-                "german": {
-                    "languageCode":"de",
+                {
+                    "url":"https://translate.google.com/?sl=en&tl=de&text={text}&op=translate",
                     "displayText":"2G",
-                    "sourceLanguage":"english"
                 }
-            },
+            ],
             "containsJson": true
         },
         {

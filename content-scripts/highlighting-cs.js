@@ -4,8 +4,8 @@ if (window == top) {
     browser.storage.sync.get(
         [
             "highlightingToggle",
-            "languageTranslation",
-            "languageConfiguration",
+            "actionPopup",
+            "actionConfiguration",
             "widgetDuration",
             "widgetOverlap",
             "toGoogle",
@@ -120,13 +120,14 @@ browser.storage.sync.get(['removeOnClick']).then(response => {
 function handleAllHighlightingWidgets(options) {
     let timeout = parseInt(options.widgetDuration);
 
-    let languageConfiguration = null;
-    if (options.languageTranslation) {
-        languageConfiguration = JSON.parse(options.languageConfiguration);
+    let actionConfiguration = null;
+    if (options.actionPopup) {
+        actionConfiguration = JSON.parse(options.actionConfiguration);
+        console.log(actionConfiguration);
     }
 
     let selection = window.getSelection().toString();
-
+    console.log(options);
     if (selection.length > 0) {
         if (selection === highlightedSelection) return; else highlightedSelection = selection;
 
@@ -140,8 +141,8 @@ function handleAllHighlightingWidgets(options) {
             }
 
             // in case it is turned off
-            if (languageConfiguration !== null) {
-                spawnTranslationButtons(container, selection, languageConfiguration, 'helper-btn-primary');
+            if (actionConfiguration !== null) {
+                spawnActionButtons(container, selection, actionConfiguration, 'helper-btn-primary');
             }
 
             if (options.toClipboard) {
@@ -222,13 +223,12 @@ function spawnToClipboardButton(container, selection, toClipboardText, desiredCl
     }); 
 }
 
-function spawnTranslationButtons(container, textToTranslate, langConfiguration, desiredClass) {
-    Object.keys(langConfiguration).forEach(el => {
-        let languageCode = langConfiguration[el].languageCode;
-        let sourceLanguageCode = langConfiguration[langConfiguration[el].sourceLanguage].languageCode;
+function spawnActionButtons(container, highlightedText, actionConfiguration, desiredClass) {
+    actionConfiguration.forEach(el => {
+        const finalUrl = el.url.replace('{text}', encodeURIComponent(highlightedText));
 
-        spawnButton(container, langConfiguration[el].displayText, desiredClass, function(){
-            window.open('https://translate.google.com/?sl=' + sourceLanguageCode + '&tl=' + languageCode + '&text=' + encodeURIComponent(textToTranslate) + '&op=translate')
+        spawnButton(container, el.displayText, desiredClass, function(){
+            window.open(finalUrl)
         });
     });
 }

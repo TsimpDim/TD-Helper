@@ -29,10 +29,6 @@ function restoreOptions() {
             }
 
             if (option.type === "string") {
-                if (option.containsJson === true) {
-                    value = JSON.stringify(option.default);
-                }
-
                 document.getElementById(option.htmlId).value = value;
             } else if (option.type === "boolean") {
                 document.getElementById(option.htmlId).checked = value;
