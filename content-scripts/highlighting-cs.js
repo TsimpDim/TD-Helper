@@ -123,11 +123,9 @@ function handleAllHighlightingWidgets(options) {
     let actionConfiguration = null;
     if (options.actionPopup) {
         actionConfiguration = JSON.parse(options.actionConfiguration);
-        console.log(actionConfiguration);
     }
 
     let selection = window.getSelection().toString();
-    console.log(options);
     if (selection.length > 0) {
         if (selection === highlightedSelection) return; else highlightedSelection = selection;
 
